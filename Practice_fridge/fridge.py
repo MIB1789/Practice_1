@@ -1,3 +1,4 @@
+
 from datetime import date, datetime, timedelta
 from decimal import Decimal
 
@@ -6,6 +7,7 @@ DATE_FORMAT = '%Y-%m-%d'
 goods = {}
 
 
+# Добавляет продукт и его партию в холодильник.
 def add(items, title, amount, expiration_date=None):
     if isinstance(expiration_date, str):
         expiration_date = datetime.strptime(expiration_date, DATE_FORMAT).date()
@@ -19,6 +21,7 @@ def add(items, title, amount, expiration_date=None):
     })
 
 
+# Добавляет продукт из текстового описания.
 def add_by_note(items, note):
     parts = note.split()
     expiration_date = None
@@ -35,6 +38,7 @@ def add_by_note(items, note):
     add(items, title, amount, expiration_date)
 
 
+# Ищет продукты по названию без учёта регистра.
 def find(items, needle):
     result = []
 
@@ -45,7 +49,7 @@ def find(items, needle):
     return result
 
 
-
+# Возвращает общее количество найденных продуктов.
 def get_amount(items, needle):
     amount = Decimal('0')
 
@@ -56,9 +60,7 @@ def get_amount(items, needle):
     return amount
 
 
-
-
-
+# Находит просроченные продукты и складывает количество их партий.
 def get_expired(items, in_advance_days=0):
     today = date.today()
 
@@ -81,7 +83,7 @@ def get_expired(items, in_advance_days=0):
     return [(title, amount) for title, amount in result.items()]
 
 
-
+# Проверка работы функций.
 add(goods, 'Пельмени Универсальные', '0.5', '2026-10-20')
 add(goods, 'Пельмени Универсальные', '2', '2026-11-01')
 add(goods, 'Вода', '1.5')
